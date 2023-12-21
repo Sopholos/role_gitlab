@@ -1,4 +1,4 @@
-# The URL through which GitLab will be accessed.
+# The URL through which GitLab will be accessed
 external_url "{{ gitlab_external_url }}"
 
 # gitlab.yml configuration
@@ -14,7 +14,7 @@ gitlab_rails['gitlab_email_reply_to'] = "{{ gitlab_email_reply_to }}"
 # Default Theme
 gitlab_rails['gitlab_default_theme'] = "{{ gitlab_default_theme }}"
 
-# Whether to redirect http to https.
+# Whether to redirect http to https
 nginx['redirect_http_to_https'] = {{ gitlab_redirect_http_to_https | lower }}
 nginx['ssl_certificate'] = "{{ gitlab_ssl_certificate }}"
 nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
@@ -28,7 +28,7 @@ letsencrypt['auto_renew_day_of_month'] = "{{ gitlab_letsencrypt_auto_renew_day_o
 letsencrypt['auto_renew'] = {{ gitlab_letsencrypt_auto_renew | lower }}
 {% endif %}
 
-# The directory where Git repositories will be stored.
+# The directory where Git repositories will be stored
 git_data_dirs({"default" => {"path" => "{{ gitlab_git_data_dir }}"} })
 
 # The directory where Gitlab backups will be stored
@@ -56,6 +56,10 @@ nginx['listen_port'] = "{{ gitlab_nginx_listen_port }}"
 {% if gitlab_nginx_listen_https is defined %}
 nginx['listen_https'] = {{ gitlab_nginx_listen_https | lower }}
 {% endif %}
+{% if gitlab_nginx_headers %}
+nginx['proxy_set_headers'] = { "Host" => "{{ gitlab_domain }}" }
+registry_nginx['proxy_set_headers'] = { "Host" => "{{ gitlab_domain }}:5050" }
+{% endif %}
 
 # Use smtp instead of sendmail/postfix
 # More details and example configuration at
@@ -81,7 +85,7 @@ gitlab_rails['smtp_ca_path'] = '{{ gitlab_smtp_ca_path }}'
 gitlab_rails['smtp_ca_file'] = '{{ gitlab_smtp_ca_file }}'
 {% endif %}
 
-# 2-way SSL Client Authentication.
+# 2-way SSL Client Authentication
 {% if gitlab_nginx_ssl_verify_client %}
 nginx['ssl_verify_client'] = "{{ gitlab_nginx_ssl_verify_client }}"
 {% endif %}
@@ -89,7 +93,7 @@ nginx['ssl_verify_client'] = "{{ gitlab_nginx_ssl_verify_client }}"
 nginx['ssl_client_certificate'] = "{{ gitlab_nginx_ssl_client_certificate }}"
 {% endif %}
 
-# GitLab registry.
+# GitLab registry
 registry['enable'] = {{ gitlab_registry_enable | lower }}
 {% if gitlab_registry_enable %}
 registry_external_url "{{ gitlab_registry_external_url }}"
