@@ -105,3 +105,14 @@
     group: root
     mode: 0600
   notify: restart gitlab
+
+- name: check ssh #Check whether ssh keys are available by anonymous access
+  command: grep -Fq user_for_ssh_keys_rendering /opt/gitlab/embedded/service/gitlab-rails/app/controllers/users_controller.rb.orig
+  register: ssh_result
+  check_mode: no
+  ignore_errors: yes
+  changed_when: no
+
+- name: show warning
+  debug: msg="!!! SSH KEYS ARE NOT AVAILABLE !!! See https://confluence.agrohistory.com/pages/viewpage.action?pageId=641012587 for more details"
+  when: not ssh_result.rc == 0
