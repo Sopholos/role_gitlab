@@ -107,7 +107,7 @@
   notify: restart gitlab
 
 - name: check ssh #Check whether ssh keys are available by anonymous access
-  command: grep -Fq user_for_ssh_keys_rendering /opt/gitlab/embedded/service/gitlab-rails/app/controllers/users_controller.rb.orig
+  command: grep -Fq user_for_ssh_keys_rendering /opt/gitlab/embedded/service/gitlab-rails/app/controllers/users_controller.rb
   register: ssh_result
   check_mode: no
   ignore_errors: yes
