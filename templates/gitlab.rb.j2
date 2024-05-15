@@ -116,6 +116,10 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 
 {% endfor %}
 {% endif %}
+gitlab_rails['object_store']['enabled'] = {{ gitlab_objectstorage_enabled | lower }}
+{% if gitlab_objectstorage_enabled %}
+gitlab_rails['object_store']['proxy_download'] = {{ gitlab_objectstorage_proxy | lower }}
+
 
 # To change other settings, see:
 # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md#changing-gitlab-yml-settings
