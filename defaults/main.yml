@@ -84,12 +84,17 @@ gitlab_letsencrypt_auto_renew_day_of_month: "*/7"
 gitlab_letsencrypt_auto_renew: true
 
 #object storage
-gitlab_objectstorage_enabled: false
-gitlab_objectstorage_proxy: true
-gitlab_objectstorage_connection:
+gitlab_objectstore_enabled: false
+gitlab_objectstore_proxy: true
+gitlab_objectstore_connection:
   provider: "AWS"
   region: "ru-central1"
   endpoint: "https://example.com"
   aws_access_key_id: changeme
   aws_secret_access_key: changeme
+
+gitlab_objectstore_objects:
+  - name: artifacts
+    enabled: false
+    bucket: bucketname
 
