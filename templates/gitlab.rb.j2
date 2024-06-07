@@ -106,7 +106,9 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 {% for extra in gitlab_extra_settings %}
 {% for setting in extra %}
 {% for kv in extra[setting] %}
-{% if (kv.type is defined and kv.type == 'plain') or (kv.value is not string) %}
+{% if (kv.value | type_debug == "dict") %}
+{{ setting }}['{{ kv.key }}'] = {{ kv.value | to_json (indent=2, separators = (',',' => ')) }}
+{% elif (kv.type is defined and kv.type == 'plain') or (kv.value is not string) %}
 {{ setting }}['{{ kv.key }}'] = {{ kv.value }}
 {% else %}
 {{ setting }}['{{ kv.key }}'] = '{{ kv.value }}'
