@@ -106,7 +106,9 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 {% for extra in gitlab_extra_settings %}
 {% for setting in extra %}
 {% for kv in extra[setting] %}
-{% if (kv.type is defined and kv.type == 'plain') or (kv.value is not string) %}
+{% if (kv.value | type_debug == "dict") %}
+{{ setting }}['{{ kv.key }}'] = {{ kv.value | to_json (indent=2, separators = (',',' => ')) }}
+{% elif (kv.type is defined and kv.type == 'plain') or (kv.value is not string) %}
 {{ setting }}['{{ kv.key }}'] = {{ kv.value }}
 {% else %}
 {{ setting }}['{{ kv.key }}'] = '{{ kv.value }}'
@@ -114,6 +116,22 @@ registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_nginx_ssl_certificat
 {% endfor %}
 {% endfor %}
 
+{% endfor %}
+{% endif %}
+gitlab_rails['object_store']['enabled'] = {{ gitlab_objectstore_enabled | lower }}
+{% if gitlab_objectstore_enabled %}
+gitlab_rails['object_store']['proxy_download'] = {{ gitlab_objectstore_proxy | lower }}
+gitlab_rails['object_store']['connection'] = {{ gitlab_objectstore_connection | to_json (indent=2, separators = (',',' => ')) }}
+{% for object in  gitlab_objectstore_objects %}
+{% for nameobj,setting in object.items() %}
+{% for key, value in setting.items() %}
+{% if (value | type_debug == "bool") %}
+gitlab_rails['object_store']['objects']['{{ nameobj }}']['{{ key }}'] = {{ value | lower }}
+{% else %}
+gitlab_rails['object_store']['objects']['{{ nameobj }}']['{{ key }}'] = '{{ value }}'
+{% endif %}
+{% endfor %}
+{% endfor %}
 {% endfor %}
 {% endif %}
 
