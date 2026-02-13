@@ -88,7 +88,7 @@
     mode: 0600
   no_log: yes
   tags: cert
-  notify: restart gitlab
+  notify: restart nginx
 
 - name: Copy agroassist key.
   copy:
@@ -99,7 +99,7 @@
     mode: 0600
   no_log: yes
   tags: cert
-  notify: restart gitlab
+  notify: restart nginx
 
 - name: Copy GitLab configuration file.
   template:
