@@ -1,6 +1,6 @@
 ---
 - name: restart gitlab
-  command: gitlab-ctl reconfigure
+  command: gitlab-ctl reconfigure & gitlab-ctl restart nginx
   register: gitlab_restart
   failed_when: gitlab_restart_handler_failed_when | bool
 

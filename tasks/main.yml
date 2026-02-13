@@ -87,6 +87,8 @@
     group: root
     mode: 0600
   no_log: yes
+  tags: cert
+  notify: restart gitlab
 
 - name: Copy agroassist key.
   copy:
@@ -96,6 +98,8 @@
     group: root
     mode: 0600
   no_log: yes
+  tags: cert
+  notify: restart gitlab
 
 - name: Copy GitLab configuration file.
   template:
