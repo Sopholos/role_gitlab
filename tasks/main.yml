@@ -81,7 +81,7 @@
 
 - name: Copy agroassist cert.
   copy:
-    content: "{{ ssl_cert_agroassist_ru }}"
+    content: "{{ gitlab_ssl_cert }}"
     dest: "{{ gitlab_ssl_certificate }}"
     owner: root
     group: root
@@ -92,7 +92,7 @@
 
 - name: Copy agroassist key.
   copy:
-    content: "{{ ssl_key_agroassist_ru }}"
+    content: "{{ gitlab_ssl_key }}"
     dest: "{{ gitlab_ssl_certificate_key }}"
     owner: root
     group: root
